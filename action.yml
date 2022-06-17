@@ -1,0 +1,37 @@
+name: Version
+description: Get project version
+author: hyperbola
+
+inputs:
+  pure:
+    description: whether to remove the prefix 'v'
+    default: false
+
+outputs:
+  major:
+    description: major version of project
+    value: ${{ steps.task.outputs.major }}
+  minor:
+    description: minor version of project
+    value: ${{ steps.task.outputs.minor }}
+  version:
+    description: version of project
+    value: ${{ steps.task.outputs.version }}
+
+runs:
+  using: composite
+  steps:
+    - id: task
+      shell: bash -e {0}
+      run: |
+        VERSION=$(cat package.json | jq '.version' | tr -d '"')
+        if [[ "${{ inputs.pure }}" == 'true' ]]; then
+          VERSION=${VERSION#v}
+        fi
+        echo "::set-output name=version::$VERSION"
+
+        MINOR=${VERSION%.*}
+        echo "::set-output name=minor::$MINOR"
+
+        MAJOR=${VERSION%%.*}
+        echo "::set-output name=major::$MAJOR"
