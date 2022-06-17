@@ -3,8 +3,9 @@ description: Get project version
 author: hyperbola
 
 inputs:
-  pure:
-    description: whether to remove the prefix 'v'
+  prefix:
+    description: the prefix of version
+    required: false
     default: false
 
 outputs:
@@ -25,7 +26,9 @@ runs:
       shell: bash -e {0}
       run: |
         VERSION=$(cat package.json | jq '.version' | tr -d '"')
-        if [[ "${{ inputs.pure }}" == 'true' ]]; then
+        if [[ "${VERSION::1}" != v && "${{ inputs.prefix }}" == v ]]; then
+          VERSION="v$VERSION"
+        elif [[ "${VERSION::1}" == v && "${{ inputs.prefix }}" == '' ]]; then
           VERSION=${VERSION#v}
         fi
         echo "::set-output name=version::$VERSION"
