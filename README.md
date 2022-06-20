@@ -10,12 +10,18 @@ jobs:
     name: Get version
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v3
       - uses: wdzeng/version@v1
 ```
 
+Note that it is user's responsibility to download repository or call actions/checkout workflow.
+
 ## Inputs
 
-- `pure`: whether the prefix `v` should be removed from outputs
+- `prefix`
+  - `v`: add a `v` to version prefix if not present
+  - empty string: if `v` is present then removes it
+  - `false`: remain unchanged fetched from package.json
 
 ## Outputs
 
