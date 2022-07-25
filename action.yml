@@ -15,9 +15,15 @@ outputs:
   minor:
     description: minor version of project
     value: ${{ steps.task.outputs.minor }}
+  patch:
+    description: patch version of project
+    value: ${{ steps.task.outputs.minor }}
   version:
     description: version of project
     value: ${{ steps.task.outputs.version }}
+  pre-release:
+    description: whether the version is a pre-release
+    value: ${{ steps.task.outputs.pre-release }}
 
 runs:
   using: composite
@@ -25,16 +31,42 @@ runs:
     - id: task
       shell: bash -e {0}
       run: |
+        # Get version number from package.json
         VERSION=$(cat package.json | jq '.version' | tr -d '"')
-        if [[ "${VERSION::1}" != v && "${{ inputs.prefix }}" == v ]]; then
-          VERSION="v$VERSION"
-        elif [[ "${VERSION::1}" == v && "${{ inputs.prefix }}" == '' ]]; then
-          VERSION=${VERSION#v}
+
+        # The version number must be x.x.x for stable releases; or either
+        # x.x.x-alpha.x or x.x.x-beta.x for pre-releases. x.x.x-rc.x is not
+        # supported. A prefix `v` is allowed.
+        if [[ ! "$VERSION" =~ ^v?[0-9]+\.[0-9]+\.[0-9]+(\-(alpha|beta)\.[0-9]+)?$ ]]; then
+          echo ::error::"$VERSION" is not a valid version.
+          exit 1
+        fi
+
+        # Update to the prefix user specifies
+        if [[ "${VERSION::1}" == v ]]; then
+          PURE_VERSION="${VERSION:1}"
+        else
+          PURE_VERSION="$VERSION"
+        fi
+        if [[ ${{ inputs.prefix }} != 'false' ]]; then
+          VERSION="${{ inputs.prefix }}$PURE_VERSION"
         fi
         echo "::set-output name=version::$VERSION"
 
-        MINOR=${VERSION%.*}
-        echo "::set-output name=minor::$MINOR"
+        # Check if this is a pre-release
+        if [[ "$VERSION" == *-* ]]; then
+          echo ::set-output name=pre-release::true
 
-        MAJOR=${VERSION%%.*}
-        echo "::set-output name=major::$MAJOR"
+          # Remove the pre-release part
+          VERSION="${VERSION%-*}"
+        else
+          echo ::set-output name=pre-release::false
+        fi
+
+        echo "::set-output name=patch::$VERSION"
+
+        VERSION=${VERSION%.*}
+        echo "::set-output name=minor::$VERSION"
+
+        VERSION=${VERSION%.*}
+        echo "::set-output name=major::$VERSION"
