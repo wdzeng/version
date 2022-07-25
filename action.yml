@@ -6,7 +6,7 @@ inputs:
   prefix:
     description: the prefix of version
     required: false
-    default: false
+    default: 'false'
 
 outputs:
   major:
