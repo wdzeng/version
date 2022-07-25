@@ -27,4 +27,6 @@ Note that it is user's responsibility to download repository or call actions/che
 
 - `major`: major version of project
 - `minor`: minor version of project
+- `patch`: patch version of project
 - `version`: version of project
+- `pre-release`: whether the version is a pre-release
