@@ -48,7 +48,7 @@ runs:
         else
           PURE_VERSION="$VERSION"
         fi
-        if [[ ${{ inputs.prefix }} != 'false' ]]; then
+        if [[ "${{ inputs.prefix }}" != 'false' ]]; then
           VERSION="${{ inputs.prefix }}$PURE_VERSION"
         fi
         echo "::set-output name=version::$VERSION"
