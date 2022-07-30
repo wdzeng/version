@@ -17,7 +17,7 @@ outputs:
     value: ${{ steps.task.outputs.minor }}
   patch:
     description: patch version of project
-    value: ${{ steps.task.outputs.minor }}
+    value: ${{ steps.task.outputs.patch }}
   version:
     description: version of project
     value: ${{ steps.task.outputs.version }}
