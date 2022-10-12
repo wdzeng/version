@@ -51,22 +51,22 @@ runs:
         if [[ "${{ inputs.prefix }}" != 'false' ]]; then
           VERSION="${{ inputs.prefix }}$PURE_VERSION"
         fi
-        echo "::set-output name=version::$VERSION"
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
 
         # Check if this is a pre-release
         if [[ "$VERSION" == *-* ]]; then
-          echo ::set-output name=pre-release::true
+          echo pre-release=true >> $GITHUB_OUTPUT
 
           # Remove the pre-release part
           VERSION="${VERSION%-*}"
         else
-          echo ::set-output name=pre-release::false
+          echo pre-release=false >> $GITHUB_OUTPUT
         fi
 
-        echo "::set-output name=patch::$VERSION"
+        echo "patch=$VERSION" >> $GITHUB_OUTPUT
 
         VERSION=${VERSION%.*}
-        echo "::set-output name=minor::$VERSION"
+        echo "minor=$VERSION" >> $GITHUB_OUTPUT
 
         VERSION=${VERSION%.*}
-        echo "::set-output name=major::$VERSION"
+        echo "major=$VERSION" >> $GITHUB_OUTPUT
