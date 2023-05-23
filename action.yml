@@ -1,0 +1,31 @@
+name: Version
+description: Get project version
+author: hyperbola
+
+inputs:
+  prefix:
+    description: the prefix of version
+    required: false
+    default: 'false'
+
+outputs:
+  major:
+    description: major version of project
+  minor:
+    description: minor version of project
+  patch:
+    description: patch version of project
+  version:
+    description: version of project
+  pre-release:
+    description: whether the version is a pre-release
+  description:
+    description: project description
+  author:
+    description: project author
+  license:
+    description: project license
+
+runs:
+  using: node16
+  main: index.js
