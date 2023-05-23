@@ -11,62 +11,21 @@ inputs:
 outputs:
   major:
     description: major version of project
-    value: ${{ steps.task.outputs.major }}
   minor:
     description: minor version of project
-    value: ${{ steps.task.outputs.minor }}
   patch:
     description: patch version of project
-    value: ${{ steps.task.outputs.patch }}
   version:
     description: version of project
-    value: ${{ steps.task.outputs.version }}
   pre-release:
     description: whether the version is a pre-release
-    value: ${{ steps.task.outputs.pre-release }}
+  description:
+    description: project description
+  author:
+    description: project author
+  license:
+    description: project license
 
 runs:
-  using: composite
-  steps:
-    - id: task
-      shell: bash -e {0}
-      run: |
-        # Get version number from package.json
-        VERSION=$(cat package.json | jq '.version' | tr -d '"')
-
-        # The version number must be x.x.x for stable releases; or either
-        # x.x.x-alpha.x or x.x.x-beta.x for pre-releases. x.x.x-rc.x is not
-        # supported. A prefix `v` is allowed.
-        if [[ ! "$VERSION" =~ ^v?[0-9]+\.[0-9]+\.[0-9]+(\-(alpha|beta)\.[0-9]+)?$ ]]; then
-          echo ::error::"$VERSION" is not a valid version.
-          exit 1
-        fi
-
-        # Update to the prefix user specifies
-        if [[ "${VERSION::1}" == v ]]; then
-          PURE_VERSION="${VERSION:1}"
-        else
-          PURE_VERSION="$VERSION"
-        fi
-        if [[ "${{ inputs.prefix }}" != 'false' ]]; then
-          VERSION="${{ inputs.prefix }}$PURE_VERSION"
-        fi
-        echo "version=$VERSION" >> $GITHUB_OUTPUT
-
-        # Check if this is a pre-release
-        if [[ "$VERSION" == *-* ]]; then
-          echo pre-release=true >> $GITHUB_OUTPUT
-
-          # Remove the pre-release part
-          VERSION="${VERSION%-*}"
-        else
-          echo pre-release=false >> $GITHUB_OUTPUT
-        fi
-
-        echo "patch=$VERSION" >> $GITHUB_OUTPUT
-
-        VERSION=${VERSION%.*}
-        echo "minor=$VERSION" >> $GITHUB_OUTPUT
-
-        VERSION=${VERSION%.*}
-        echo "major=$VERSION" >> $GITHUB_OUTPUT
+  using: node16
+  main: index.js
