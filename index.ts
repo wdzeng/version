@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 
-import core from '@actions/core'
+import * as core from '@actions/core'
 
 function getPackageJson() {
   try {
