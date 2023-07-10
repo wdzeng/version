@@ -22,7 +22,7 @@ function getVersions(version: string) {
   const preReleaseRegex: RegExp =
     /^[0-9]+\.[0-9]+\.[0-9]+\-(alpha|beta)\.[0-9]+$/
   const isPreRelease = preReleaseRegex.test(version)
-  const tokens = (isPreRelease ? version.split['-'][0] : version).split('.')
+  const tokens = (isPreRelease ? version.split('-')[0] : version).split('.')
   const major: string = tokens[0]
   const minor: string = tokens[1]
   const patch: string = tokens[2]
