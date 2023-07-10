@@ -52,7 +52,7 @@ function isValidSemver(version) {
 function getVersions(version) {
     const preReleaseRegex = /^[0-9]+\.[0-9]+\.[0-9]+\-(alpha|beta)\.[0-9]+$/;
     const isPreRelease = preReleaseRegex.test(version);
-    const tokens = (isPreRelease ? version.split['-'][0] : version).split('.');
+    const tokens = (isPreRelease ? version.split('-')[0] : version).split('.');
     const major = tokens[0];
     const minor = tokens[1];
     const patch = tokens[2];
