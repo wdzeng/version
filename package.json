@@ -13,7 +13,9 @@
   },
   "type": "module",
   "scripts": {
-    "build": "tsc && ncc build dist/tsc-out/index.js -o dist --minify && cp action.yml dist",
+    "dev": "tsx index.ts",
+    "build": "pnpm clean && pnpm transpile && cp action.yml dist",
+    "transpile": "esbuild index.ts --platform=node --target=node16 --bundle --minify --outfile=dist/index.cjs",
     "clean": "rm -rf dist",
     "lint": "eslint index.ts --fix"
   },
@@ -25,10 +27,12 @@
     "@typescript-eslint/eslint-plugin": "^6.3.0",
     "@typescript-eslint/parser": "^6.3.0",
     "@vercel/ncc": "^0.36.1",
+    "esbuild": "^0.19.0",
     "eslint": "^8.46.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-config-wdzeng": "github:wdzeng/eslint-config#semver:^0.4.2",
     "prettier": "^3.0.1",
+    "tsx": "^3.12.7",
     "typescript": "^5.1.6"
   },
   "packageManager": "pnpm@8.6.12",
