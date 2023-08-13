@@ -8,6 +8,9 @@ dependencies:
   '@actions/core':
     specifier: ^1.10.0
     version: 1.10.0
+  ts-custom-error:
+    specifier: ^3.3.1
+    version: 3.3.1
 
 devDependencies:
   '@types/node':
@@ -2609,6 +2612,11 @@ packages:
     dependencies:
       typescript: 5.1.6
     dev: true
+
+  /ts-custom-error@3.3.1:
+    resolution: {integrity: sha512-5OX1tzOjxWEgsr/YEUWSuPrQ00deKLh6D7OTWcvNHm12/7QPyRh8SYpyWvA4IZv8H/+GQWQEh/kwo95Q9OVW1A==}
+    engines: {node: '>=14.0.0'}
+    dev: false
 
   /tsconfig-paths@3.14.2:
     resolution: {integrity: sha512-o/9iXgCYc5L/JxCHPe3Hvh8Q/2xm5Z+p18PESBU6Ff33695QnCHBEjcytY2q19ua7Mbl/DavtBOLq+oG0RCL+g==}

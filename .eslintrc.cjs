@@ -12,7 +12,7 @@ module.exports = {
     project: './tsconfig.json'
   },
   rules: {
-    // Your custom rules go here ...
+    'unicorn/no-process-exit': 'off',
     'prettier/prettier': 'warn'
   }
 }
