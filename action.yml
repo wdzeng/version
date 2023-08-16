@@ -4,9 +4,17 @@ author: hyperbola
 
 inputs:
   prefix:
-    description: the prefix of version
+    description: output version prefix
     required: false
     default: 'false'
+  push:
+    description: push version tags to remote
+    required: false
+    default: 'false'
+  push-target:
+    description: branch or commit has to set tags
+    required: false
+    default: ''
 
 outputs:
   major:

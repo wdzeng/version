@@ -1,6 +1,6 @@
 import { InvalidPackageJsonError } from '@/utils/package-json'
 
-export function getVersionInfo(version: string, outputPrefix: 'v' | '' | false) {
+export function getVersionInfo(version: string, outputPrefix: string | false) {
   const semverRegex = /^[0-9]+\.[0-9]+\.[0-9]+(-(alpha|beta)\.[0-9]+)?$/
   let inputPrefix: '' | 'v' = ''
 
@@ -18,7 +18,7 @@ export function getVersionInfo(version: string, outputPrefix: 'v' | '' | false) 
   const isPreRelease = preReleaseRegex.test(version)
 
   const tokens = (isPreRelease ? version.split('-')[0] : version).split('.')
-  const prefix: 'v' | '' = outputPrefix === false ? inputPrefix : outputPrefix
+  const prefix = outputPrefix === false ? inputPrefix : outputPrefix
   const major = prefix + tokens[0]
   const minor = `${major}.${tokens[1]}`
   const patch = `${minor}.${tokens[2]}`
