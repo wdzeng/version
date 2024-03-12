@@ -20,7 +20,7 @@ interface PackageJson {
 }
 ```
 
-The `version` field package.json must be a [semver](https://semver.org/), with an optional prefix
+The `version` field in package.json must be a [semver](https://semver.org/), with an optional prefix
 `v`.
 
 For pre-releases, only alpha and beta are allowed. The version format must be `X.X.X-alpha|beta.X`,
