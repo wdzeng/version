@@ -18,7 +18,7 @@ jobs:
     name: Get version
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v6
       - uses: wdzeng/version@v1
 ```
 
