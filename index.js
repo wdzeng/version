@@ -4,28 +4,25 @@ import * as core from '@actions/core'
 
 function getPackageJson() {
   try {
-    return JSON.parse(fs.readFileSync('package.json', 'utf8'))
-  } catch (err: unknown) {
+    return JSON.parse(fs.readFileSync('package.json'))
+  } catch (err) {
     console.trace(err)
-    core.setFailed('Error reading package.json')
-    process.exit()
+    throw new Error('Error reading package.json', { cause: err })
   }
 }
 
-function isValidSemver(version: string): boolean {
-  const semverRegex: RegExp =
-    /^[0-9]+\.[0-9]+\.[0-9]+(\-(alpha|beta)\.[0-9]+)?$/
+function isValidSemver(version) {
+  const semverRegex = /^\d+\.\d+\.\d+(-(alpha|beta)\.\d+)?$/
   return semverRegex.test(version)
 }
 
-function getVersions(version: string) {
-  const preReleaseRegex: RegExp =
-    /^[0-9]+\.[0-9]+\.[0-9]+\-(alpha|beta)\.[0-9]+$/
+function getVersions(version) {
+  const preReleaseRegex = /^\d+\.\d+\.\d+-(alpha|beta)\.\d+$/
   const isPreRelease = preReleaseRegex.test(version)
   const tokens = (isPreRelease ? version.split('-')[0] : version).split('.')
-  const major: string = tokens[0]
-  const minor: string = tokens[1]
-  const patch: string = tokens[2]
+  const major = tokens[0]
+  const minor = tokens[1]
+  const patch = tokens[2]
   return {
     major,
     minor: `${major}.${minor}`,
@@ -36,14 +33,14 @@ function getVersions(version: string) {
 }
 
 let outputPrefix = core.getInput('prefix') || 'false'
-if (outputPrefix != 'v' && outputPrefix != '' && outputPrefix != 'false') {
+if (outputPrefix !== 'v' && outputPrefix !== '' && outputPrefix !== 'false') {
   core.setFailed('Prefix must be on of "v", "false" or empty string')
   process.exit()
 }
 
 const packageJson = getPackageJson()
 
-let version: string | undefined = packageJson.version
+let version = packageJson.version
 if (!version) {
   core.setFailed('Version not found')
   process.exit()
@@ -54,11 +51,11 @@ if (version.startsWith('v')) {
   versionPrefix = 'v'
 }
 if (!isValidSemver(version)) {
-  core.setFailed('Invalid semver: ' + version)
+  core.setFailed(`Invalid semver: ${version}`)
   process.exit()
 }
 
-let author: any = packageJson.author || ''
+let author = packageJson.author || ''
 if (typeof author === 'object') {
   if (!author.name) {
     core.setFailed('Author name not found')
@@ -84,7 +81,7 @@ if (typeof description !== 'string') {
   process.exit()
 }
 
-let license: any = packageJson.license || ''
+let license = packageJson.license || ''
 if (typeof license === 'object') {
   if (!license.type) {
     core.setFailed('License type not found')

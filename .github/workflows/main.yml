@@ -6,11 +6,11 @@ on:
     branches:
       - main
     paths:
-      - index.ts
+      - index.js
 
 jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: wdzeng/action-of-action@v3
+      - uses: wdzeng/action-of-action@v5
