@@ -27,5 +27,5 @@ outputs:
     description: project license
 
 runs:
-  using: node16
+  using: node24
   main: index.cjs
