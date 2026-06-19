@@ -2,8 +2,8 @@ import { getConfigForJs } from 'eslint-config-wdzeng'
 
 export default getConfigForJs(
   {
-    'unicorn/no-process-exit': 'off',
-    'unicorn/prefer-top-level-await': 'off' // transpiled cjs does not support top-level await
+    'unicorn/prefer-top-level-await': 'off', // transpiled cjs does not support top-level await
+    'preserve-caught-error': 'off' // this hurts when bundling
   },
   {
     projectRoot: import.meta.dirname,
