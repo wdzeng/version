@@ -12,7 +12,8 @@
 		"url": "git+https://github.com/wdzeng/version"
 	},
 	"scripts": {
-		"build": "esbuild index.js --platform=node --target=node24 --minify --bundle --outfile=dist/index.cjs && cp action.yml dist/",
+		"build": "esbuild src/index.js --platform=node --target=node24 --minify --bundle --outfile=dist/index.cjs && cp action.yml dist/",
+		"test": "vitest",
 		"lint": "eslint index.js --fix",
 		"clean": "rm -rf dist"
 	},
@@ -24,7 +25,9 @@
 		"esbuild": "^0.28.1",
 		"eslint": "^10.5.0",
 		"eslint-config-wdzeng": "github:wdzeng/eslint-config#semver:^0.16.0",
-		"prettier": "^3.8.4"
+		"memfs": "^4.57.7",
+		"prettier": "^3.8.4",
+		"vitest": "^4.1.9"
 	},
 	"license": "MIT",
 	"engines": {

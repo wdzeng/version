@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - index.js
+      - src/index.js
 
 jobs:
   build:
